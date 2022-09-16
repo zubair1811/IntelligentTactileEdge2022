@@ -13,7 +13,7 @@ def througput_calculation(mRTT,bwdth, packet_size):
 
 
 def read_latencies_file(latencies_filename):
-    path = './latency/%s' % latencies_filename
+    path = './Experiment Results/%s' % latencies_filename
     with open(path, 'r') as latencies_file:
         lines = latencies_file.read().split('\n')
     packet_ns = []
