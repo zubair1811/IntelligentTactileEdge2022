@@ -16,8 +16,8 @@ send_rate_kbytes_per_s=send_rate_kbytes_per_s
 
 
 def save_packet_latencies(packetn_latency_tuples, n_packets_expected, output_filename):
-        # path ='./latency/%s'%output_filename
-        path = './latency/%s' % output_filename
+        # path ='./Experiment Results/%s'%output_filename
+        path = './Experiment Results/%s' % output_filename
         with open(path, 'w') as out_file:
             out_file.write("%d\n" % n_packets_expected)
             for tup in packetn_latency_tuples:
@@ -25,7 +25,7 @@ def save_packet_latencies(packetn_latency_tuples, n_packets_expected, output_fil
                 latency = "%.2f" % tup[1]
                 out_file.write("%s %s\n" % (packet_n, latency))
 def backup(filename, data):
-    with open('./result/%s.json'  % (filename), 'w') as f:
+    with open('./Experiment Results/%s.json'  % (filename), 'w') as f:
         f.write(json.dumps(data))
 
 def recv_one_message(sock):
