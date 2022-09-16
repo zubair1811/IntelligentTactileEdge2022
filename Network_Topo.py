@@ -185,22 +185,22 @@ def Exp01_pingCheck(h,j):
         #     pack_loss=0
         # else:
         exec(open("./settings.txt").read())
-        m1.cmd('ping 10.0.1.2 -i 0.001 -c {} -s {} -w 1 -q | tail -1 > ./latency/ping.out &'.format(n_packets, packet_len))
-        m1.cmd('iperf -c 10.0.1.2 -i 0.001 -b {}M -n {} -t 1 | tail -1 > ./latency/tput.out'.format(send_rate_kbytes_per_s,packet_len))
+        m1.cmd('ping 10.0.1.2 -i 0.001 -c {} -s {} -w 1 -q | tail -1 > ./Experiment Results/ping.out &'.format(n_packets, packet_len))
+        m1.cmd('iperf -c 10.0.1.2 -i 0.001 -b {}M -n {} -t 1 | tail -1 > ./Experiment Results/tput.out'.format(send_rate_kbytes_per_s,packet_len))
         # makeTerm(slave, cmd='sysctl -w net.ipv4.tcp_ecn=1 && python3 ./b_reciever.py; read')
         # makeTerm(master, cmd='sysctl -w net.ipv4.tcp_ecn=1 && python3 ./c_feedback.py; read')
         # time.sleep(0.5)
         # makeTerm(master, cmd='sysctl -w net.ipv4.tcp_ecn=1 && python3 ./a_sending.py; read')
         # time.sleep(20)
         # mRTT, pack_loss, T_put = analyis.read_latencies_file("HD_{}".format(n_packets_expected))
-        # slave.cmd('tail -n 2000 ./latency/HD_{} > ./latency/HD_{}_{}'.format(n_packets_expected, n_packets_expected,exp))
-        statinfo = os.stat('./latency/ping.out')
+        # slave.cmd('tail -n 2000 ./Experiment Results/HD_{} > ./Experiment Results/HD_{}_{}'.format(n_packets_expected, n_packets_expected,exp))
+        statinfo = os.stat('./Experiment Results/ping.out')
         if statinfo.st_size < 10:
             print('*** No ping response')
             m_error = True
             mRTT = statistics.mean(hist_rtt)
         else:
-            din = open('./latency/ping.out').readlines()
+            din = open('./Experiment Results/ping.out').readlines()
             slice = ss.substringByInd(din[0], 26, 39)
             text = (slice.split('/'))
             mRTT = float(text[1])
@@ -211,13 +211,13 @@ def Exp01_pingCheck(h,j):
         # hist_plr.append(pack_loss)
         # print('*** Packet Loss Rate: %.3f' % pack_loss)
 
-        statinfo = os.stat('./latency/tput.out')
+        statinfo = os.stat('./Experiment Results/tput.out')
         if statinfo.st_size < 10:
             print('*** No tput response. Setting R = 0')
             m_error = True
             mRTT = statistics.mean(hist_tput)
         else:
-            din = open('./latency/tput.out').readlines()
+            din = open('./Experiment Results/tput.out').readlines()
             T_put = float(ss.substringByInd(din[0], 34, 37))
             unit = ss.substringByInd(din[0], 39, 39)
             if unit == 'K':
@@ -252,8 +252,6 @@ def Exp01_pingCheck(h,j):
         else:
             A_set.select_packet_n(ind_action)
             A_set.select_pkt_rate(ind_action)
-
-        # s1.cmd('tc -s -d qdisc show dev s11-eth1 >>./iaqm.stat')
 
 
     print('*** Saving Q-Table and historical rewards')
@@ -304,7 +302,7 @@ def experiment(h,itr):
 
 def backup(filename, data):
     # with open('./final_results/store_results/%s.json' % (filename), 'w') as f:
-    with open('./result/%s.json'  % (filename), 'w') as f:
+    with open('./Experiment Results/%s.json'  % (filename), 'w') as f:
         f.write(json.dumps(data))
 
 if __name__ == "__main__":
