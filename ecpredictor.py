@@ -11,9 +11,11 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 from keras.models import load_model
 import warnings
 import tensorflow as tf
+import logging
 
 warnings.filterwarnings("ignore")
-tf.logging.set_verbosity(tf.logging.ERROR)
+# tf.logging.set_verbosity(tf.logging.ERROR)
+logging.getLogger('tensorflow').setLevel(logging.ERROR)
 np.random.seed(7)										# Only for reproducibility
 
 model = load_model('./CongestPredict.h5')				# Load pre-trained model
